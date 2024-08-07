@@ -4,7 +4,6 @@ import com.azure.runtime.host.AppHost;
 import com.azure.runtime.host.DistributedApplication;
 import com.azure.runtime.host.dcp.k8s.KubernetesService;
 import com.azure.runtime.host.dcp.metadata.DcpDependencyCheckServiceImpl;
-import com.azure.runtime.host.dcp.metadata.DcpInfo;
 import com.azure.runtime.host.dcp.metadata.DcpOptions;
 import com.azure.runtime.host.dcp.metadata.Locations;
 
@@ -13,13 +12,23 @@ import java.util.concurrent.ExecutionException;
 public interface DcpAppHost extends AppHost {
     @Override
     default void run() {
-        DcpOptions dcpOptions = new DcpOptions();
-        String dcpPath = "/Users/xiada/Documents/Projects/aspire4j/azure-runtime/azure-runtime-dcp/bin/darwin_arm64_0.5.7/";
-        dcpOptions.setExtensionsPath(dcpPath + "ext");
-        dcpOptions.setBinPath(dcpPath + "ext/bin");
-        dcpOptions.setCliPath(dcpPath + "dcp");
+        String dcpHome = System.getenv("DCP_HOME");
+        if (dcpHome == null || dcpHome.isEmpty()) {
+            throw new RuntimeException("Please configure azure-runtime-dcp path as an environment variable 'DCP_HOME', "
+                + "such as: DCP_HOME=/Users/xiada/Documents/Projects/aspire4j/azure-runtime/azure-runtime-dcp/bin/darwin_arm64_0.5.7/");
+        }
 
-        DcpInfo dcpInfo = new DcpInfo();
+        DcpOptions dcpOptions = new DcpOptions();
+        dcpOptions.setExtensionsPath(dcpHome + "ext");
+        dcpOptions.setBinPath(dcpHome + "ext/bin");
+
+        String osName = System.getProperty("os.name");
+        if (osName.toLowerCase().contains("windows")) {
+            dcpOptions.setCliPath(dcpHome + "dcp.exe");
+        } else {
+            dcpOptions.setCliPath(dcpHome + "dcp");
+        }
+
         Locations locations = new Locations();
 
         // FIXME: this is just for test, remove it later

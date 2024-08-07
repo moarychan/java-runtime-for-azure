@@ -22,7 +22,7 @@ public class SpringProject extends MicroserviceProject<SpringProject>
 
     private SpringProject(ResourceType type, String name) {
         super(type, name);
-        withEnvironment("spring.application.name", name);
+//        withEnvironment("spring.application.name", name);
     }
     
     public SpringProject withDependency(Resource<?> resource) {

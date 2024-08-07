@@ -25,4 +25,12 @@ public class LogEntry {
     public void setErrorMessage(boolean errorMessage) {
         isErrorMessage = errorMessage;
     }
+
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+            "content='" + content + '\'' +
+            ", isErrorMessage=" + isErrorMessage +
+            '}';
+    }
 }

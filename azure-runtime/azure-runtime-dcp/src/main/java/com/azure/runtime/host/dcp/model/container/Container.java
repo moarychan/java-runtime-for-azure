@@ -63,4 +63,11 @@ public class Container extends CustomResource<ContainerSpec, ContainerStatus> {
     public String getKind() {
         return Dcp.CONTAINER_KIND;
     }
+
+    @Override
+    public String toString() {
+        return "Container{" +
+            super.toString() +
+            '}';
+    }
 }

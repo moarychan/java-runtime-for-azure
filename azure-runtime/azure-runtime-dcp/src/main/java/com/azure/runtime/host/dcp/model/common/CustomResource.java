@@ -138,4 +138,13 @@ public abstract class CustomResource<TSpec, TStatus> implements KubernetesObject
     public void setStatus(TStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "CustomResource{" +
+            "metadata=" + metadata +
+            ", spec=" + spec +
+            ", status=" + status +
+            '}';
+    }
 }
