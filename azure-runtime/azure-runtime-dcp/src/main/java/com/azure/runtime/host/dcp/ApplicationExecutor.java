@@ -55,6 +55,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -749,6 +750,11 @@ public class ApplicationExecutor {
                 Container container = (Container) appResource.getDcpResource();
                 this.kubernetesService.create(Container.class, container);
                 System.out.println("Container created: " + container.getMetadata().getName());
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             if (appResource.getDcpResource() instanceof Executable) {

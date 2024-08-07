@@ -150,4 +150,20 @@ public class ExecutableStatus /*extends V1Status*/ {
     public void setEffectiveArgs(List<String> effectiveArgs) {
         this.effectiveArgs = effectiveArgs;
     }
+
+    @Override
+    public String toString() {
+        return "ExecutableStatus{" +
+            "executionID='" + executionID + '\'' +
+            ", processId=" + processId +
+            ", state='" + state + '\'' +
+            ", startupTimestamp=" + startupTimestamp +
+            ", finishTimestamp=" + finishTimestamp +
+            ", exitCode=" + exitCode +
+            ", stdOutFile='" + stdOutFile + '\'' +
+            ", stdErrFile='" + stdErrFile + '\'' +
+            ", effectiveEnv=" + effectiveEnv +
+            ", effectiveArgs=" + effectiveArgs +
+            '}';
+    }
 }

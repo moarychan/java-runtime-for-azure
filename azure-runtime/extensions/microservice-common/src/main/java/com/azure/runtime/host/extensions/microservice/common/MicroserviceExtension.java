@@ -2,6 +2,7 @@ package com.azure.runtime.host.extensions.microservice.common;
 
 import com.azure.runtime.host.DistributedApplication;
 import com.azure.runtime.host.Extension;
+import com.azure.runtime.host.extensions.microservice.common.resources.ConfigServerServiceDiscovery;
 import com.azure.runtime.host.extensions.microservice.common.resources.EurekaServiceDiscovery;
 
 public abstract class MicroserviceExtension implements Extension {
@@ -30,5 +31,14 @@ public abstract class MicroserviceExtension implements Extension {
      */
     public EurekaServiceDiscovery addEurekaServiceDiscovery(String name) {
         return DistributedApplication.getInstance().addResource(new EurekaServiceDiscovery(name));
+    }
+
+    /**
+     * Adds a new Config Server service to the app host.
+     * @param name The name of the Config Server service.
+     * @return A new {@link ConfigServerServiceDiscovery} instance that can be used to configure Eureka.
+     */
+    public ConfigServerServiceDiscovery addConfigServerServiceDiscovery(String name) {
+        return DistributedApplication.getInstance().addResource(new ConfigServerServiceDiscovery(name));
     }
 }

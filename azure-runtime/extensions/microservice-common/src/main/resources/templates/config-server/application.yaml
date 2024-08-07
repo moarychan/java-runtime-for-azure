@@ -1,0 +1,11 @@
+server:
+  port: ${targetPort?c}
+spring:
+  application:
+    name: ${name}
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${gitRepositoryPath}
+          default-label: main
