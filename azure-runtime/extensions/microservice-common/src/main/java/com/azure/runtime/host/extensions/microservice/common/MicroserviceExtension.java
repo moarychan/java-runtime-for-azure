@@ -4,6 +4,7 @@ import com.azure.runtime.host.DistributedApplication;
 import com.azure.runtime.host.Extension;
 import com.azure.runtime.host.extensions.microservice.common.resources.ConfigServerService;
 import com.azure.runtime.host.extensions.microservice.common.resources.EurekaServiceDiscovery;
+import com.azure.runtime.host.extensions.microservice.common.resources.PrometheusService;
 import com.azure.runtime.host.extensions.microservice.common.resources.ZipkinServerService;
 
 public abstract class MicroserviceExtension implements Extension {
@@ -50,5 +51,14 @@ public abstract class MicroserviceExtension implements Extension {
      */
     public ZipkinServerService addZipkinServer(String name) {
         return DistributedApplication.getInstance().addResource(new ZipkinServerService(name));
+    }
+
+    /**
+     * Adds a new Prometheus service to the app host.
+     * @param name The name of the Prometheus.
+     * @return A new {@link PrometheusService} instance that can be used to configure Prometheus.
+     */
+    public PrometheusService addPrometheusService(String name) {
+        return DistributedApplication.getInstance().addResource(new PrometheusService(name));
     }
 }

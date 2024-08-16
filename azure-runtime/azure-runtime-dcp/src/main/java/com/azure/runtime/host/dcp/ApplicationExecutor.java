@@ -100,9 +100,10 @@ public class ApplicationExecutor {
     private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private final static Set<String> LOCAL_IGNORE_ENV_KEYS = new HashSet<>(Arrays.asList(
-            "eureka.client.serviceUrl.defaultZone",
-            "CONFIG_SERVER_URL",
-            "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT"
+        "eureka.client.serviceUrl.defaultZone",
+        "CONFIG_SERVER_URL",
+        "MANAGEMENT_ZIPKIN_TRACING_ENDPOINT",
+        "MANAGEMENT_PROMETHEUS_METRICS_EXPORT_PUSHGATEWAY_BASE_URL"
     ));
 
     public ApplicationExecutor(
@@ -147,7 +148,7 @@ public class ApplicationExecutor {
 
             watchResourceChanges();
 
-//            createServices();
+            createServices();
             createContainersAndExecutables();
 
 
@@ -218,6 +219,12 @@ public class ApplicationExecutor {
 
                 String uniqueServiceName = generateUniqueServiceName(serviceNames, candidateServiceName);
                 Service svc = Service.create(uniqueServiceName);
+//                Service service = this.kubernetesService.get(Service.class, svc.getMetadata().getName(), null);
+//                try {
+//                    Thread.sleep(Duration.ofSeconds(10));
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
 
                 // _options.getValue().isRandomizePorts() 
                 // FIXME whether to use randomize ports or not

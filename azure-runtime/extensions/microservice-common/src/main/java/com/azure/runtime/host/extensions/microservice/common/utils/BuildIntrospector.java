@@ -188,6 +188,11 @@ public class BuildIntrospector {
                     outputEnvs.put("BUILD_EXPORTER_ZIPKIN_ENABLED", "true");
                 }
 
+                if (findDependency(model,"io.opentelemetry:micrometer-registry-prometheus").isPresent()) {
+                    LOGGER.fine("Found micrometer registry to prometheus.");
+                    outputEnvs.put("BUILD_MICROMETER_REGISTRY_PROMETHEUS_ENABLED", "true");
+                }
+
                 // determine the docker image name
                 String dockerImageName = null;
                 if (springBootMavenPluginOptional.isPresent()) {

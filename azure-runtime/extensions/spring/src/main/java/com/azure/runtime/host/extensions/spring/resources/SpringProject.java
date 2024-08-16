@@ -37,9 +37,15 @@ public class SpringProject extends MicroserviceProject<SpringProject>
                 withEnvironment("eureka.client.serviceUrl.defaultZone", "{eureka.bindings.https.url}/eureka/");
                 withEnvironment("EUREKA_INSTANCE_PREFERIPADDRESS", "true");
                 withEnvironment("CONFIG_SERVER_URL", "{config-server.bindings.https.url}");
+                withEnvironment("eureka.instance.metadataMap.prometheus.scrape", "true");
+                withEnvironment("eureka.instance.metadataMap.prometheus.path", "/actuator/prometheus");
             }
             if ("BUILD_EXPORTER_ZIPKIN_ENABLED".equals(k)) {
                 withEnvironment("MANAGEMENT_ZIPKIN_TRACING_ENDPOINT", "{zipkin-server.bindings.https.url}/api/v2/spans");
+            }
+
+            if ("BUILD_MICROMETER_REGISTRY_PROMETHEUS_ENABLED".equals(k)) {
+                withEnvironment("MANAGEMENT_PROMETHEUS_METRICS_EXPORT_PUSHGATEWAY_BASE_URL", "{prometheus.bindings.https.url}");
             }
         });
         
