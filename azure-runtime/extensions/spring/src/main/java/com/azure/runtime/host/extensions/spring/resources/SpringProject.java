@@ -32,11 +32,13 @@ public class SpringProject extends MicroserviceProject<SpringProject>
         super.introspect();
         
         super.getIntrospectOutputEnvs().forEach((k, v) -> {
+            if ("CONFIG_SERVER_CLIENT_ENABLED".equals(k)) {
+                withEnvironment("CONFIG_SERVER_URL", "{config-server.bindings.https.url}");
+            }
             if ("BUILD_EUREKA_CLIENT_ENABLED".equals(k)) {
-                // https://github.com/spring-cloud/spring-cloud-netflix/issues/2541 
+                // https://github.com/spring-cloud/spring-cloud-netflix/issues/2541
                 withEnvironment("eureka.client.serviceUrl.defaultZone", "{eureka.bindings.https.url}/eureka/");
                 withEnvironment("EUREKA_INSTANCE_PREFERIPADDRESS", "true");
-                withEnvironment("CONFIG_SERVER_URL", "{config-server.bindings.https.url}");
             }
             if ("BUILD_EXPORTER_ZIPKIN_ENABLED".equals(k)) {
                 withEnvironment("MANAGEMENT_ZIPKIN_TRACING_ENDPOINT", "{zipkin-server.bindings.https.url}/api/v2/spans");

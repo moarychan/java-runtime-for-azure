@@ -29,6 +29,7 @@ import com.azure.runtime.host.dcp.utils.RandomNameGenerator;
 import com.azure.runtime.host.extensions.spring.resources.SpringProject;
 import com.azure.runtime.host.resources.DockerFile;
 import com.azure.runtime.host.resources.Resource;
+import com.azure.runtime.host.resources.ResourceType;
 import com.azure.runtime.host.resources.annotations.EndpointAnnotation;
 import com.azure.runtime.host.resources.annotations.EnvironmentAnnotation;
 import com.azure.runtime.host.resources.annotations.KeyValueAnnotation;
@@ -784,6 +785,9 @@ public class ApplicationExecutor {
             if (appResource.getModelResource() instanceof SpringProject) {
                 SpringProject springProject = (SpringProject) appResource.getModelResource();
                 for (Resource dependency : springProject.getDependencies()) {
+                    if (ResourceType.VALUE == dependency.getType()) {
+                        continue;
+                    }
                     int j = appResourceIndex.get(dependency.getName());
                     graph.addEdge(i, j);
                 }

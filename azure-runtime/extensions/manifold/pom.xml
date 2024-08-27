@@ -20,6 +20,8 @@
     </properties>
 
     <modules>
+        <module>azure/cosmos-mongo-ext</module>
+        <module>azure/keyvault-ext</module>
         <module>azure/storage-ext</module>
         <module>spring-ext</module>
     </modules>

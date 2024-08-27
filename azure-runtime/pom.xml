@@ -26,6 +26,8 @@
         <module>azure-runtime-dcp</module>
 
         <module>extensions/azure/azure</module>
+        <module>extensions/azure/keyvault</module>
+        <module>extensions/azure/cosmos-mongo</module>
         <module>extensions/azure/storage</module>
         <module>extensions/azure/eventhubs</module>
         <module>extensions/azure/openai</module>

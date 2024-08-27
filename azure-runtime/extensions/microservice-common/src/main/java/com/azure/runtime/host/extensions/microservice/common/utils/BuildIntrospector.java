@@ -15,6 +15,7 @@ import org.apache.maven.model.Parent;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 import java.io.BufferedReader;
@@ -122,7 +123,7 @@ public class BuildIntrospector {
             AtomicBoolean parentHasSpringBootMavenPlugin = new AtomicBoolean(false);
             String parentRelativePath = model.getParent().getRelativePath();
             String parentAbsolutePath = null;
-            if (parentRelativePath != null) {
+            if (!StringUtils.isBlank(parentRelativePath)) {
                 File parentPom = new File(inputFile.getParentFile(), parentRelativePath);
                 
                 if (parentPom.exists()) {
@@ -179,6 +180,10 @@ public class BuildIntrospector {
                     outputEnvs.put("SERVER_PORT", DEFAULT_SERVER_PORT);
                 }
                 
+                if (findDependency(model,"org.springframework.cloud:spring-cloud-starter-config").isPresent()) {
+                    LOGGER.fine("Found config server client");
+                    outputEnvs.put("CONFIG_SERVER_CLIENT_ENABLED", "true");
+                }
                 if (findDependency(model,"org.springframework.cloud:spring-cloud-starter-netflix-eureka-client").isPresent()) {
                     LOGGER.fine("Found eureka client");
                     outputEnvs.put("BUILD_EUREKA_CLIENT_ENABLED", "true");
