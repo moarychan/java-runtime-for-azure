@@ -4,6 +4,8 @@ import com.azure.runtime.host.DistributedApplication;
 import com.azure.runtime.host.dcp.DcpAppHost;
 import com.azure.runtime.host.extensions.azure.storage.AzureStorageExtension;
 import com.azure.runtime.host.extensions.spring.SpringExtension;
+import manifold.azure.cosmos.mongo.extensions.com.azure.runtime.host.DistributedApplication.AzureCosmosMongoDistributedApplication;
+import manifold.azure.keyvault.extensions.com.azure.runtime.host.DistributedApplication.AzureKeyVaultDistributedApplication;
 
 public class StorageExplorerAppHost implements DcpAppHost {
 
@@ -14,6 +16,14 @@ public class StorageExplorerAppHost implements DcpAppHost {
         var blobStorage = app.withExtension(AzureStorageExtension.class)
             .addAzureStorage("storage")
             .addBlobs("storage-explorer-blobs");
+        var mongo = AzureCosmosMongoDistributedApplication
+            .addAzureCosmosMongo(app,"cosmos-mongo")
+            .withDatabaseName("Todo");
+        var keyVault = AzureKeyVaultDistributedApplication
+            .addAzureKeyVault(app, "keyvault")
+            .withReference(mongo)
+            .withSecretKey("AZURE-COSMOS-CONNECTION-STRING2")
+            .withSecretValue(mongo.getConnectionStringExpression().getValue());
 
         // Create Azure OpenAI resources...
 //         var openAI = app.withExtension(AzureOpenAIExtension.class)
@@ -35,6 +45,8 @@ public class StorageExplorerAppHost implements DcpAppHost {
         var storageExplorer = spring.addSpringProject("storage-explorer")
             .withExternalHttpEndpoints()
             .withReference(blobStorage)
+            .withReference(mongo).withEnvironment("AZURE_KEY_VAULT_ENDPOINT", keyVault.getValueExpression())
+            .withReference(keyVault)
             .withReference(eurekaServiceDiscovery)
             .withOpenTelemetry();
 //            .withReference(openAI);

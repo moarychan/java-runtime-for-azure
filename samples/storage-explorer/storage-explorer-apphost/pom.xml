@@ -45,6 +45,16 @@
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
+            <artifactId>azure-runtime-extensions-azure-cosmos-mongo-ext</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-runtime-extensions-azure-keyvault-ext</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
             <artifactId>azure-runtime-extensions-micronaut</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -64,7 +74,6 @@
             <artifactId>azure-runtime-dcp</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 
     <build>
